@@ -61,5 +61,35 @@ My work focuses on RTL design using Verilog, the complete FPGA design flow (simu
 * **Assignments Completed (Code & Testbenches included in repo):**
 
     1.  Designed a D Flip-Flop using a 2x1 Multiplexer.
+    **verilog code: **
+module dff_mux (
+    input d,
+    input clk,
+    output q
+);
+    wire qm;
+    assign qm = clk ? qm : d;
+    assign q  = clk ? qm : q;
+endmodule
 
-    2.  Designed a circuit to delay a D Flip-Flop input until the 3rd positive clock edge (delivering the output on the 4th positive edge).
+**testbench:**
+module tb;
+    reg d, clk;
+    wire q;
+    
+dff_mux uut (d, clk, q);
+
+ always #5 clk = ~clk;
+
+initial begin
+ clk = 0; 
+d = 0;
+        
+#15 d = 1; 
+#20 d = 0; 
+#20 $finish; 
+    end
+    
+endmodule
+
+  2.  Designed a circuit to delay a D Flip-Flop input until the 3rd positive clock edge (delivering the output on the 4th positive edge).
